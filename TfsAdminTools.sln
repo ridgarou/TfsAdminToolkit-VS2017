@@ -1,0 +1,66 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2005
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C5CF0E28-C5C9-477C-89DF-396EDE3E6DDC}"
+	ProjectSection(SolutionItems) = preProject
+		IntegrationTests.testsettings = IntegrationTests.testsettings
+		TfsAdminTools\MTMWrapper.cs = TfsAdminTools\MTMWrapper.cs
+		TfsAdminTools.vsmdi = TfsAdminTools.vsmdi
+		UnitTests.testsettings = UnitTests.testsettings
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TfsAdminToolKit", "TfsAdminTools\TfsAdminToolKit.csproj", "{3EAA1F1E-8AC8-46B0-88EA-6505796F5602}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TfsAdminTools_IntegrationTests", "TfsAdminTools\TfsAdminTools_IntegrationTests\TfsAdminTools_IntegrationTests.csproj", "{05026E84-DF72-4B04-889C-FAC3E2D06699}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TfsAdminTools_UnitTests", "TfsAdminTools\TfsAdminTools_UnitTests\TfsAdminTools_UnitTests.csproj", "{56C25CBE-BD10-4831-A3FC-9BE2CFCDB4B2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3EAA1F1E-8AC8-46B0-88EA-6505796F5602}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EAA1F1E-8AC8-46B0-88EA-6505796F5602}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EAA1F1E-8AC8-46B0-88EA-6505796F5602}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3EAA1F1E-8AC8-46B0-88EA-6505796F5602}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3EAA1F1E-8AC8-46B0-88EA-6505796F5602}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3EAA1F1E-8AC8-46B0-88EA-6505796F5602}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EAA1F1E-8AC8-46B0-88EA-6505796F5602}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EAA1F1E-8AC8-46B0-88EA-6505796F5602}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3EAA1F1E-8AC8-46B0-88EA-6505796F5602}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3EAA1F1E-8AC8-46B0-88EA-6505796F5602}.Release|x86.ActiveCfg = Release|Any CPU
+		{05026E84-DF72-4B04-889C-FAC3E2D06699}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05026E84-DF72-4B04-889C-FAC3E2D06699}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05026E84-DF72-4B04-889C-FAC3E2D06699}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{05026E84-DF72-4B04-889C-FAC3E2D06699}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{05026E84-DF72-4B04-889C-FAC3E2D06699}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05026E84-DF72-4B04-889C-FAC3E2D06699}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05026E84-DF72-4B04-889C-FAC3E2D06699}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{05026E84-DF72-4B04-889C-FAC3E2D06699}.Release|x86.ActiveCfg = Release|Any CPU
+		{56C25CBE-BD10-4831-A3FC-9BE2CFCDB4B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56C25CBE-BD10-4831-A3FC-9BE2CFCDB4B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56C25CBE-BD10-4831-A3FC-9BE2CFCDB4B2}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{56C25CBE-BD10-4831-A3FC-9BE2CFCDB4B2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{56C25CBE-BD10-4831-A3FC-9BE2CFCDB4B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56C25CBE-BD10-4831-A3FC-9BE2CFCDB4B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56C25CBE-BD10-4831-A3FC-9BE2CFCDB4B2}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{56C25CBE-BD10-4831-A3FC-9BE2CFCDB4B2}.Release|x86.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {93EE2C9D-6906-4959-8BAD-4FC7757EFEFE}
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = TfsAdminTools.vsmdi
+	EndGlobalSection
+EndGlobal
