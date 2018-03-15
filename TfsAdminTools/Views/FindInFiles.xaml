@@ -1,0 +1,93 @@
+﻿<Window x:Class="mskold.TfsAdminToolKit.Views.FindInFiles"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:mskold.TfsAdminToolKit.ViewModels"
+        xmlns:src="clr-namespace:Sogeti.SourceControlWrapper"
+        xmlns:VsEditor ="clr-namespace:mskold.TfsAdminToolKit"
+        xmlns:CustomBehaviour ="clr-namespace:mskold.TfsAdminToolKit.Views"
+
+
+        Title="FindInFiles" Height="498" Width="674">
+    <Window.DataContext >
+        <vm:FindInFilesViewModel />
+    </Window.DataContext>
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key = "BooleanToVisibilityConverter"/>
+    </Window.Resources>
+    <Grid Margin="12,0,12,12" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="12" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Label Grid.Column="0" Grid.Row="1" Content="Search in:" Height="23" HorizontalAlignment="Left" Name="label2" VerticalAlignment="Top" />
+        <ListBox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" Height="100" VerticalAlignment="Top" Width="Auto" ItemsSource="{Binding RootFolders}" DisplayMemberPath="FolderPath" SelectedItem="{Binding Path=SelectedFolder}"  SelectionMode="Multiple" />
+        <ListBox Grid.Column="3" Grid.Row="1" HorizontalAlignment="Stretch" Height="100" VerticalAlignment="Top" Width="Auto" ItemsSource="{Binding CollectionRootFolder.Folders[0].Folders}" DisplayMemberPath="FolderPath" SelectedItem="{Binding Path=SelectedTeamProject}"  SelectionMode="Multiple" Name="lstTeamProjects"/>
+
+        <Label Grid.Column="0" Grid.Row="2" Content="Filenames" Height="23" HorizontalAlignment="Left" Name="label1" VerticalAlignment="Top" Margin="0,6,0,0"/>
+        <!-- <TextBox Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Height="23" HorizontalAlignment="Stretch" Name="textBox1" Text="&#xD;&#xA;" VerticalAlignment="Top"   Margin="0,6,0,0" TextChanged="textBox1_TextChanged"/>-->
+        <ComboBox Name="textBox1" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" HorizontalAlignment="Stretch"  VerticalAlignment="Top"  IsEditable="True" Margin="0,6,0,0" ItemsSource="{Binding RecentFileNames}" Text="{Binding FileNameFilter}"/>
+        
+        <CheckBox Grid.Column="1" Grid.Row="3" Content="Search in file history" Height="16" HorizontalAlignment="Left"  Name="checkBox1" VerticalAlignment="Top" FlowDirection="LeftToRight" Width="188" IsEnabled="True" IsChecked="{Binding Path=SearchHistory}" HorizontalContentAlignment="Left" />
+
+        <Label Grid.Column="0" Grid.Row="4" Content="Searchtext" Height="23" HorizontalAlignment="Left"  Name="lblSearchTxt" VerticalAlignment="Top" Margin="0,6,0,0"/>
+        <TextBox Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" Height="23" HorizontalAlignment="Stretch" Name="txtSearch" Text="{Binding Path=SearchText}" VerticalAlignment="Top" Margin="0,6,0,0"/>
+        <CheckBox Grid.Column="1" Grid.Row="5" Content="Case sensitive" Height="16" HorizontalAlignment="Left"  Name="checkBox2" VerticalAlignment="Top" IsChecked="{Binding Path=isCaseSensitive}" />
+        <CheckBox Grid.Column="3" Grid.Row="5" Content="Use regular expression matching" Height="16" HorizontalAlignment="Left" Name="checkBox3" VerticalAlignment="Top" IsChecked="{Binding Path=useRegExp}" />
+
+
+        <StackPanel Grid.Column="4" Grid.Row="1" Grid.RowSpan="2"  HorizontalAlignment="Right" Name="stackPanel1" VerticalAlignment="Top" Width="80" Orientation="Horizontal" Margin="12,0,0,0">
+            <Button Content="Search" Height="45" Name="cmdSearch" Width="75" Click="cmdSearch_Click" Visibility="{Binding Path=Progress.ShowForm, Mode=OneWay, Converter = {StaticResource BooleanToVisibilityConverter}}"/>
+            <Button Height="43" Name="cmdStopSearch" Width="75" Content="Stop Search"  Click="cmdStopSearch_Click" Visibility="{Binding Path=Progress.ShowProgress, Mode=OneWay, Converter = {StaticResource BooleanToVisibilityConverter}}"/>
+        </StackPanel>
+
+        <ProgressBar Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="5" Height="16"  HorizontalAlignment="Stretch" Name="progressBar"  VerticalAlignment="Top" Value="{Binding Path=Progress.JobProgress, Mode=OneWay, IsAsync=True}" Visibility="{Binding Path=Progress.ShowProgress, Mode=OneWay, Converter = {StaticResource BooleanToVisibilityConverter}}" Maximum="{Binding Path=Progress.Max, Mode=OneWay}" />
+        <Label Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="5"  HorizontalAlignment="Stretch" Content="{Binding Path=Progress.CurrentOperation}"  Padding="0" Name="lblProgress" VerticalAlignment="Top" FontSize="10" Opacity="1" HorizontalContentAlignment="Left" Visibility="{Binding Path=Progress.ShowProgress, Mode=OneWay, Converter = {StaticResource BooleanToVisibilityConverter}}" />
+
+        <DataGrid Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="5" HorizontalAlignment="Stretch" AutoGenerateColumns="False" ItemsSource="{Binding Path=FoundFiles, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Name="dgrFoundFiles" VerticalAlignment="Stretch"  MouseDoubleClick="grdFoundFiles_DoubleClick" >
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Open file" Click="OpenMenuItem_Click"  >
+                    </MenuItem>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+
+            <DataGrid.Columns >
+
+                <DataGridTextColumn Binding="{Binding Path=FilePath}" Header="Filename" />
+                <DataGridTextColumn Binding="{Binding Path=ChangesetId}" Header="Changeset" />
+                <DataGridTextColumn Binding="{Binding Path=Comment}" Header="Found in line" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Grid.Column="2" Grid.Row="1"  VerticalAlignment="Center" HorizontalAlignment="Center"  Margin="10,0,10,0" >
+            <Button Content="&lt;&lt;" HorizontalAlignment="Center" VerticalAlignment="Top" Width="Auto" Name="cmdAdd" Click="cmdAdd_Click" />
+            <Button Content="&gt;&gt;" HorizontalAlignment="Center" VerticalAlignment="Top" Width="Auto" Name="cmdRemove" Click="cmdRemove_Click" />
+        </StackPanel>
+        <GridSplitter ResizeDirection="Rows" Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="5" Width="Auto" Height="2" HorizontalAlignment="Stretch" VerticalAlignment="Top" BorderBrush="Black" BorderThickness="1" Margin="-12,6,-12,6"/>
+
+        <Expander Header="Preview"  Margin="0,12,0,0" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+            <StackPanel>
+                <TextBlock HorizontalAlignment="Stretch" CustomBehaviour:TextblockFormatedTextBehaviour.FormattedText="{Binding Path=SelectedItem.PreviewText, ElementName=dgrFoundFiles}" />
+            </StackPanel>
+        </Expander>
+       
+
+        <!--
+        <Binding Path="SelectedItem.PreviewText"  ElementName="dgrFoundFiles" /> */-->
+
+
+    </Grid>
+</Window>

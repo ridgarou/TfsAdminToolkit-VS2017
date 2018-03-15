@@ -1,0 +1,50 @@
+﻿<Window x:Class="mskold.TfsAdminToolKit.Views.BuildControllers"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:mskold.TfsAdminToolKit.ViewModels"
+        xmlns:src="clr-namespace:Sogeti.SourceControlWrapper"
+
+        Title="Build controllers" Height="402" Width="625" ShowInTaskbar="False" WindowStyle="ToolWindow">
+    <Window.DataContext >
+        <vm:BuildControllersViewModel />
+    </Window.DataContext>
+    <Window.Resources>
+        <src:EnumDescriptionConverter x:Key="enumConverter"/>
+
+        <HierarchicalDataTemplate x:Key="NodeTemplate">
+            <!--<TreeViewItem x:Name="tvNode" Header ="{ Binding XPath=@Name}" IsHitTestVisible="True" IsTabStop="True" IsSelected="{ Binding XPath=@IsSelected, Mode=TwoWay}" Focusable="True"/>-->
+            <StackPanel Orientation="Horizontal">
+                <Label Name="tvNode" Padding="2" Content="{ Binding Path=FolderName}" />
+                <Label Name="lblSize" Padding="2" Content="{ Binding Path=SizeTxt}" />
+            </StackPanel>
+            <HierarchicalDataTemplate.ItemsSource>
+                <Binding Path="Folders" />
+            </HierarchicalDataTemplate.ItemsSource>
+        </HierarchicalDataTemplate>
+        <src:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
+    </Window.Resources>
+
+    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <TabControl  HorizontalAlignment="Stretch" Margin="1,1,1,1" Name="tabControl1" VerticalAlignment="Stretch">
+            <TabItem Header="BuildControllers" Name="tabControllers">
+                <Grid>
+                    <ProgressBar Height="16" Margin="10,73,-42,0" Name="progressBar" VerticalAlignment="Top" />
+                    <Label Content="Label" FontSize="10" HorizontalContentAlignment="Center" Margin="10,73,374,0" Name="lblProgress" Opacity="1" Padding="0" VerticalAlignment="Top" />
+                    <Button Content="Refresh" Height="45" HorizontalAlignment="Left" Margin="219,10,0,0" Name="cmdSearch" VerticalAlignment="Top" Width="75" />
+                    <DataGrid AutoGenerateColumns="True" HorizontalAlignment="Stretch" ItemsSource="{ Binding Path=BuildControllers, Mode=TwoWay, IsAsync=True}" Margin="10,117,-42,-49" Name="dataGrid1" VerticalAlignment="Stretch" />
+                    <Button Content="Test Connections" Height="23" HorizontalAlignment="Left" Margin="219,92,0,0" Name="cmdTestConnection" VerticalAlignment="Top" Width="108" />
+                    <Button Content="Restart" Height="23" HorizontalAlignment="Left" Margin="10,92,0,0" Name="cmdRestart" VerticalAlignment="Top" Width="75" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Build Agents" Name="tabAgents">
+                <Grid>
+                    <!--<Button Content="Refresh" Height="45" HorizontalAlignment="Left" Margin="219,10,0,0" Name="cmdSearch" VerticalAlignment="Top" Width="75" />-->
+                    <DataGrid AutoGenerateColumns="True" HorizontalAlignment="Stretch" ItemsSource="{ Binding Path=BuildAgents, Mode=TwoWay, IsAsync=True}" Margin="10,117,-42,-49" Name="dgrAgents" VerticalAlignment="Stretch" />
+                    <!--<Button Content="Test Connections" Height="23" HorizontalAlignment="Left" Margin="219,92,0,0" Name="cmdTestConnection" VerticalAlignment="Top" Width="108" />-->
+                    
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+    </Grid>
+</Window>

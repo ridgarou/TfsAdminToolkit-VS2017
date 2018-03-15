@@ -1,0 +1,56 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:vm="clr-namespace:mskold.TfsAdminToolKit.ViewModels"
+        xmlns:PlatformUI="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0" x:Class="mskold.TfsAdminToolKit.Views.UpdateReports"
+        Title="Update Reports &amp; Portals" Height="402" Width="441" Loaded="Window_Loaded">
+    <Window.Resources>
+        <PlatformUI:BooleanToHiddenVisibilityConverter x:Key="BooleanToHiddenVisibilityConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Window.Resources>
+    <Window.DataContext >
+        <vm:UpdateReportsViewModel />
+    </Window.DataContext>
+
+    <Grid>
+        <DataGrid AutoGenerateColumns="False" Margin="12,132,12,12" x:Name="dataGrid1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  ItemsSource="{Binding Projects, Mode=TwoWay}" IsReadOnly="False" HorizontalGridLinesBrush="{x:Null}" VerticalGridLinesBrush="{x:Null}" >
+            <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Project" Binding="{Binding ProjectName}"/>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <Image Source = "../Resources/Passed.png" Visibility = "{Binding Passed, Converter={StaticResource BooleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"  />
+                                <Image Source = "../Resources/Failed.png" Visibility = "{Binding Failed, Converter={StaticResource BooleanToHiddenVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"  />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="..."  Tag="{Binding logfile}" Click="ShowLogFile" Visibility = "{Binding Failed, Converter={StaticResource BooleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Content="Update" Height="45" HorizontalAlignment="Right" Margin="0,12,12,0" x:Name="cmdOk" VerticalAlignment="Top" Width="100" Click="cmdOk_Click" />
+        <ComboBox Height="23" HorizontalAlignment="Stretch" Margin="21,34,137,0" x:Name="cboTemplate" VerticalAlignment="Top" ItemsSource="{Binding Templates}" SelectedValue="{Binding Template, Mode=TwoWay}" />
+        <Label Content="Select proces template as source :" Height="28" HorizontalAlignment="Left" Margin="12,12,0,0" x:Name="label1" VerticalAlignment="Top" />
+        <Label Content="Select team projects to update :" Height="24" HorizontalAlignment="Left" Margin="12,109,0,0" x:Name="label2" VerticalAlignment="Top" />
+        <CheckBox Content="Update Reports"  IsChecked="{Binding Path=UpdateReports, Mode=TwoWay}" HorizontalAlignment="Left" Margin="21,62,0,0" VerticalAlignment="Top" Width="275"/>
+        <CheckBox Content="Update Portals"  IsChecked="{Binding Path=UpdatePortals, Mode=TwoWay}" HorizontalAlignment="Left" Margin="21,83,0,0" VerticalAlignment="Top" Width="275"/>
+    </Grid>
+</Window>

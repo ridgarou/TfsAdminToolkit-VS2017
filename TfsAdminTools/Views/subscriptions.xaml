@@ -1,0 +1,49 @@
+﻿<Window x:Class="mskold.TfsAdminToolKit.Views.Subscriptions"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+          xmlns:vm="clr-namespace:mskold.TfsAdminToolKit.ViewModels"
+        xmlns:vv="clr-namespace:mskold.TfsAdminToolKit.Views"
+        xmlns:src="clr-namespace:Sogeti.SourceControlWrapper"
+        
+        Title="Subscriptions" Height="487" Width="800"  xmlns:my="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.10.0">
+    <Window.DataContext >
+        <vm:SubscriptionsViewModel />
+    </Window.DataContext>
+    <!--<Window.Resources>
+        <vm:hasTeamAlertsConverter x:Key="hasTeamAlertConverter" />
+    </Window.Resources>-->
+    <Grid>
+        <DataGrid AutoGenerateColumns="False" Height="325" HorizontalAlignment="Stretch" Margin="12,45,103,0" Name="dataGrid1" VerticalAlignment="Stretch" ItemsSource="{Binding Path=FilterSubscriptions}" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Path=ID}" />
+                <!--<DataGridTextColumn Header="Foo">
+                    <DataGridTextColumn.Binding>
+                    <MultiBinding Converter="{StaticResource hasTeamAlertConverter}">
+                        <Binding>
+                            <Binding.RelativeSource>
+                                    <RelativeSource Mode="FindAncestor" AncestorType="{x:Type vv:Subscriptions}" AncestorLevel="1"/>
+                            </Binding.RelativeSource>
+                        </Binding>
+                            <Binding Path="Subscriber" />
+                    </MultiBinding>
+                </DataGridTextColumn.Binding>
+                </DataGridTextColumn>-->
+                <DataGridTextColumn Binding="{Binding Path=User.DisplayName}" Header="Subscriber" />
+                <DataGridTextColumn Binding="{Binding Path=EventTypeName}" Header="EventType" />
+                <DataGridTextColumn Header="Type" Binding="{Binding Path=EmailType}" />
+                <DataGridTextColumn Header="Email" Binding="{Binding Path=Email}" />
+                <DataGridTextColumn Header="Filter" Binding="{Binding Path=Conditionstring}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Content="Refresh" Height="23" HorizontalAlignment="Right" Margin="0,85,12,0" Name="cmdRefresh" VerticalAlignment="Top" Width="75" Click="cmdRefresh_Click" />
+        <Button Content="Unsubscribe" Height="23" HorizontalAlignment="Right" Margin="0,114,12,0" Name="cmdUnsubscribe" VerticalAlignment="Top" Width="75" Click="cmdUnsubscribe_Click" />
+        <Label Content="Event type:" Height="28" HorizontalAlignment="Left" Margin="12,22,0,0" Name="label1" VerticalAlignment="Top" Width="85" />
+        <ComboBox Height="23" HorizontalAlignment="Left" Margin="114,22,0,0" Name="cboEventType" VerticalAlignment="Top" Width="120" SelectedValue="{Binding Path=FilterEventType}" ItemsSource="{Binding Path=EventTypes}" />
+        <Label Content="Delivery:" Height="28" HorizontalAlignment="Left" Margin="12,50,0,0" Name="label2" VerticalAlignment="Top" Width="85" />
+        <ComboBox Height="23" HorizontalAlignment="Left" Margin="114,50,0,0" Name="cboType" VerticalAlignment="Top" Width="120" SelectedValue="{Binding Path=FilterDeliveryType}" ItemsSource="{Binding Path=DeliveryTypes}"/>
+        <Label Content="(Email) Address:" Height="28" HorizontalAlignment="Left" Margin="259,22,0,0" Name="label3" VerticalAlignment="Top" Width="101" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="383,22,0,0" Name="textBox1" VerticalAlignment="Top" Width="267" Text="{Binding Path=FilterEmail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <Label Content="Filter:" Height="28" HorizontalAlignment="Left" Margin="259,50,0,0" Name="label4" VerticalAlignment="Top" Width="101" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="383,55,0,0" Name="textBox2" VerticalAlignment="Top" Width="267"  Text="{Binding Path=FilterCondition, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+    </Grid>
+</Window>

@@ -1,0 +1,63 @@
+﻿<Window x:Class="mskold.TfsAdminToolKit.Views.FindInCheckIns"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:mskold.TfsAdminToolKit.ViewModels"
+        xmlns:src="clr-namespace:Sogeti.SourceControlWrapper"
+
+        Title="Find In Checkins" Height="330" Width="674">
+    <Window.DataContext >
+        <vm:FindInFilesViewModel />
+    </Window.DataContext>
+    <Grid Margin="0,0,0,-262" >
+
+        <Label Content="TeamProject" Height="23" HorizontalAlignment="Left" Margin="12,11,0,0" Name="label2" VerticalAlignment="Top" />
+        <ComboBox Height="24" Margin="111,11,115,0" Name="comboBox1" VerticalAlignment="Top" ItemsSource="{Binding Path=RootFolder.Folders[0].Folders}" DisplayMemberPath="FolderPath" SelectedItem="{Binding Path=SelectedTeamProject}" />
+
+        <GroupBox  HorizontalAlignment="Left" Margin="12,50,115,400" VerticalAlignment="Top" Header="Changeset" >
+            <StackPanel >
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="User" Height="23" Width="100" HorizontalAlignment="Left" Margin="12,0,0,0" x:Name="label1" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Margin="0,0,0,0" x:Name="textBox1_Copy" Text="{Binding SearchUser}" VerticalAlignment="Top" Width="426" />
+                </StackPanel >
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Comment" Height="23" Width="100" HorizontalAlignment="Left" Margin="12,0,0,0" x:Name="lblFileName" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Margin="0,0,0,0" x:Name="textBox1" Text="{Binding SearchComment}" VerticalAlignment="Top" Width="426" />
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+        
+        <GroupBox  HorizontalAlignment="Left" Margin="12,120,115,300" VerticalAlignment="Top" Header="file content" >
+            <StackPanel >
+                <StackPanel Orientation="Horizontal">
+                <CheckBox Content="Search in file history" Height="16" HorizontalAlignment="Left" Margin="111,0,0,0" Name="checkBox1" VerticalAlignment="Top" FlowDirection="LeftToRight" Width="188" IsEnabled="True" IsChecked="{Binding Path=SearchHistory}" HorizontalContentAlignment="Left" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Search content" Height="23" HorizontalAlignment="Left" Margin="12,0,0,0" Name="lblSearchTxt" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Margin="10,0,0,0" Name="txtSearch" Text="{Binding Path=SearchText}" VerticalAlignment="Top" Width="426" />
+                    
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                <CheckBox Content="Use regular expression matching" Height="16" HorizontalAlignment="Right" Margin="0,159,203,0" Name="checkBox3" VerticalAlignment="Top" IsChecked="{Binding Path=useRegExp}" />
+                    <CheckBox Content="Case sensitive" Height="16" HorizontalAlignment="Left" Margin="109,159,0,0" Name="checkBox2" VerticalAlignment="Top" IsChecked="{Binding Path=isCaseSensitive}" />
+                    </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+
+        <StackPanel Height="100" HorizontalAlignment="Right" Margin="0,11,12,0" Name="stackPanel1" VerticalAlignment="Top" Width="80">
+            <Button Content="Search" Height="45" Name="cmdSearch" Width="75" Click="cmdSearch_Click" />
+            <Button Height="43" Name="cmdStopSearch" Width="75" Content="Stop Search" Visibility="Hidden" Click="cmdStopSearch_Click"/>
+        </StackPanel>
+
+        <ProgressBar Height="16"  Name="progressBar" Margin="12,280,12,0" VerticalAlignment="Top" />
+        <Label Content="Label"  Padding="0" Margin="12,280,12,0" Name="lblProgress" VerticalAlignment="Top" FontSize="10" Opacity="1" HorizontalContentAlignment="Center" />
+        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Path=FoundFiles, Mode=TwoWay, IsAsync=True}" Margin="11,311,12,12" Name="dataGrid1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Path=ChangesetId}" Header="Changeset" />
+                <DataGridTextColumn Binding="{Binding Path=Comment}" Header="Found in line" />
+            </DataGrid.Columns>
+        </DataGrid>
+      
+
+    </Grid>
+</Window>
